@@ -23,6 +23,14 @@ Config.Props = {
     hash = '0x8FEA9959'
   }
 }
+Config.SkullLight = {
+  enabled = true,
+  colour = {r = 255, g = 90, b = 15},
+  range = 2.0,
+  intensity = 3.0,
+  offsetZ = -0.05,
+  drawDistance = 40.0
+}
 Config.CollectablePlacement = {
   { 
     -- ID MUSS eindeutig und dauerhaft gleich bleiben, auch beim Umsortieren.

@@ -201,6 +201,47 @@ CreateThread(function()
     Wait(2000)
   end
 end)
+
+CreateThread(function()
+  while true do
+    local sleep = 500
+    local light = Config.SkullLight
+
+    if Config.enabled and light and light.enabled then
+      local playerCoords = GetEntityCoords(PlayerPedId())
+
+      for _, placement in ipairs(Config.CollectablePlacement or {}) do
+        local coords = placement.coords
+        local prop = placement.prop
+
+        if prop and prop.propname == 'prop_mp_skull'
+          and coords
+          and not (coords.x == 0.0 and coords.y == 0.0 and coords.z == 0.0)
+        then
+          local position = vector3(coords.x, coords.y, coords.z)
+
+          if #(playerCoords - position) <= light.drawDistance then
+            sleep = 0
+
+            DrawLightWithRange(
+              coords.x,
+              coords.y,
+              coords.z + light.offsetZ,
+              light.colour.r,
+              light.colour.g,
+              light.colour.b,
+              light.range,
+              light.intensity
+            )
+          end
+        end
+      end
+    end
+
+    Wait(sleep)
+  end
+end)
+
 AddEventHandler('onClientResourceStart', function(name)
   if name == 'ox_target' then
     targetRevision = targetRevision + 1
